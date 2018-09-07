@@ -13,14 +13,13 @@ verifier:
   name: inspec
 
 platforms:
-  - name: ubuntu-16.04
-  - name: centos-7
+  - name: centos-7.3
 
 suites:
   - name: default
     run_list:
-      - recipe[ensure-capacity::default]
+      - recipe[ensure-capacity-test::default]
     verifier:
       inspec_tests:
-        - test/smoke/default
+        - test/smoke/default/ensure-capacity.rb
     attributes:

@@ -1,20 +1,7 @@
 name 'ensure-capacity'
-maintainer 'The Authors'
-maintainer_email 'you@example.com'
+maintainer 'Atex Managed Services'
+maintainer_email 'managed-services@atex.com'
 license 'All Rights Reserved'
-description 'Installs/Configures ensure-capacity'
-long_description 'Installs/Configures ensure-capacity'
+description 'A general resource for evaluating a capacity constraint and taking a configurable action if the constraint is violated'
 version '1.0.0'
 chef_version '>= 12.1' if respond_to?(:chef_version)
-
-# The `issues_url` points to the location where issues for this cookbook are
-# tracked.  A `View Issues` link will be displayed on this cookbook's page when
-# uploaded to a Supermarket.
-#
-# issues_url 'https://github.com/<insert_org_here>/ensure-capacity/issues'
-
-# The `source_url` points to the development repository for this cookbook.  A
-# `View Source` link will be displayed on this cookbook's page when uploaded to
-# a Supermarket.
-#
-# source_url 'https://github.com/<insert_org_here>/ensure-capacity'
