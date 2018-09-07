@@ -1,22 +1,29 @@
 property :scale_threshold, [Float, Integer], default: 70
-# The function to be evaluated
-property :block, Proc, required: true
-# The function to invoked if the scale threshold is violated
-property :scale_action, Proc, required: true
+property :prometheus_api_address, String, required: true
 
 resource_name :ensure_capacity
 
-# Evaluates the function :block and compares it to :scale_threshold
-# If the return value is greater than :scale_threshold then
-# :scale_action is invoked
-
 action :run do
 
-  value = new_resource.block.call
+  tags = _get_ec2_tags
+  cpu_load = get_cpu_load(prometheus_api_address,
+               tags['Layer'],
+               tags['Environment'],
+               tags['Group'])
+  scale_threshold = node[role]['scale_threshold'] || node['scale_threshold']
+  above_capacity = cpu_load.average * cpu_load.server_count/(cpu_load.server_count - 1) > scale_threshold
 
-  if (value > new_resource.scale_threshold)
-    Chef::Log.info("Capacity is insufficient: #{value} > #{new_resource.scale_threshold}!")
-    new_resource.scale_action.call
+  scale_up 'auto scaling group' do
+    not_if { node['has_scaled_up']}
+    only_if { above_capacity }
+  end
+
+  ruby_block 'set scaled up' do
+    block do
+      node.default['has_scaled_up'] = true
+    end
+    not_if { node['has_scaled_up']}
+    only_if { above_capacity }
   end
 
 end
