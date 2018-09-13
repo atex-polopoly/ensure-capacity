@@ -19,7 +19,7 @@ action :run do
 
   scale_up 'auto scaling group' do
     not_if { node['has_scaled_up']}
-    only_if { true || above_capacity }
+    only_if { above_capacity }
   end
 
   ruby_block 'set scaled up' do
