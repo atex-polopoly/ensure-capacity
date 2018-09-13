@@ -13,7 +13,7 @@ action :run do
                tags['Environment'],
                tags['Group'])
 
-  puts "CPU average: #{cpu_load.average}"
+  puts "CPU average: #{cpu_load.average}| Predicted: #{cpu_load.average * cpu_load.server_count/(cpu_load.server_count - 1)} | Threshold #{scale_threshold}"
   above_capacity = cpu_load.average * cpu_load.server_count/(cpu_load.server_count - 1) > scale_threshold
 
 
