@@ -21,5 +21,4 @@ suites:
       - recipe[ensure-capacity-test::default]
     verifier:
       inspec_tests:
-        - test/smoke/default/ensure-capacity.rb
     attributes:
